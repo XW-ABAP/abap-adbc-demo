@@ -1,3 +1,6 @@
+Please download the zip file to run.
+
+
 # abap-adbc-demo
 ABAP Dynamic Report Extraction and ADBC CRUD Practical Solution (V2)
 This is a highly mature, hardcore, and practically valuable piece of ABAP code. It is more than just a simple report; it acts more like a small-scale "data integration middleware."
@@ -71,3 +74,5 @@ APPEND lt_config[ lv_row_idx ] TO gt_Zdemoat1. " Assuming it is wrapped in TRY..
 This is absolutely code written by a **"Senior Developer"**. It solves one of the biggest pain points in SAP: how to extract data from different reports and push it externally without hardcoding. The design logic is highly clear, and the core code is extremely robust.
 
 If you plan to deploy this program to a production environment, you just need to focus primarily on the performance of nested `ASSIGN` operations under large data volumes, and parameterize the database connection string. Once done, it will be a near-perfect universal interface middleware.
+
+
