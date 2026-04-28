@@ -6,7 +6,8 @@ Configuration screenshot
 
 <img width="717" height="372" alt="image" src="https://github.com/user-attachments/assets/298e381b-bf9d-4460-9c6e-dbe4a53f443b" />
 
-<img width="632" height="296" alt="image" src="https://github.com/user-attachments/assets/9da169a2-66d0-405f-b9ec-180827ab3e09" />
+<img width="666" height="348" alt="image" src="https://github.com/user-attachments/assets/05b67fc8-7d1d-4c35-af45-42bc6800f09e" />
+
 
 
 
