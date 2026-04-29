@@ -11,6 +11,9 @@ This isn't just a piece of report code; it's an incredibly practical, universal 
 4️⃣ **Dual-Mode Operation:** The foreground offers a visual pop-up for users to select configurations, while the background perfectly supports scheduled batch jobs. Balances business needs and operations effortlessly.
 
 💡 **TL;DR:** With just a simple configuration, you can seamlessly transform ANY report in SAP into a "data source" for external systems!
+
+
+
 Please download the zip file to run.
 
 Configuration screenshot
