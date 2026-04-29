@@ -90,6 +90,24 @@ FORM frm_getdata_push.
           lo_table_descr ?= cl_abap_tabledescr=>describe_by_data( <lt_alv_data> ).
           lo_struct_descr ?= lo_table_descr->get_table_line_type( ).
           lt_components = lo_struct_descr->get_components( ).
+          LOOP AT lt_components INTO DATA(ls_comp).
+            " 过滤掉所有'动态地址型'和'嵌套表型'的复杂字段
+            IF ls_comp-type->type_kind = 'h' OR   " Internal Table (内表)
+               ls_comp-type->type_kind = 's' OR   " 虽然是扁平的，但它还是个结构，
+               ls_comp-type->type_kind = 'u' OR   " Deep Structure (深度结构，通常含内表)
+               ls_comp-type->type_kind = 'v' OR   " Data Reference (数据引用)
+               ls_comp-type->type_kind = 'l'.     " Object Reference (对象引用)
+
+              DELETE TABLE lt_components FROM ls_comp.
+              CONTINUE.
+            ENDIF.
+
+            " 此时：
+            " 'g' (String) 会保留 -> 对应 DB 的 VARCHAR(MAX)
+            " 'y' (XString) 会保留 -> 对应 DB 的 VARBINARY
+            "                               如果你的目的是建表，'s' 通常也需要展开或删除。
+            "  既然你保留了它们，在后续拼接 SQL 语句时，请记得在 MySQL/SQL Server 中为 g 分配 VARCHAR(MAX)，为 y 分配 VARBINARY(MAX)。
+          ENDLOOP.
 
 
           cl_salv_bs_runtime_info=>clear( ).
@@ -111,7 +129,7 @@ FORM frm_getdata_push.
               DATA: lt_comp_output TYPE TABLE OF ty_comp_output.
 
               " 2. 提取元数据到中间表
-              LOOP AT lt_components INTO DATA(ls_comp).
+              LOOP AT lt_components INTO ls_comp.
                 APPEND INITIAL LINE TO lt_comp_output ASSIGNING FIELD-SYMBOL(<ls_out>).
                 <ls_out>-name      = ls_comp-name.
                 <ls_out>-type_kind = ls_comp-type->type_kind.
