@@ -23,14 +23,13 @@ Configuration screenshot
 
 If you need to display the pushed fields in ALV format and then save them as an Excel file to facilitate the creation of base tables in the database by AI
 
-<img width="1036" height="325" alt="image" src="https://github.com/user-attachments/assets/7db5eb86-d2d9-45f3-bab3-cd551a16732b" />
+<img width="762" height="277" alt="image" src="https://github.com/user-attachments/assets/ce139227-a99e-4edd-8e3c-e66a25b12ddb" />
 
-<img width="717" height="372" alt="image" src="https://github.com/user-attachments/assets/298e381b-bf9d-4460-9c6e-dbe4a53f443b" />
+If you need to map to a field in an external system, tick this box
 
-<img width="666" height="348" alt="image" src="https://github.com/user-attachments/assets/05b67fc8-7d1d-4c35-af45-42bc6800f09e" />
+<img width="1040" height="302" alt="image" src="https://github.com/user-attachments/assets/046452d7-892e-485a-b7af-90454cadf339" />
 
-
-
+As this is a report, you need to replace your selection criteria with the fields retrieved from your ALV query that correspond to the fields in the target database; this will make your WHERE clause more intelligent.
 
 
 # abap-adbc-demo
