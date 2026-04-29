@@ -1,3 +1,16 @@
+
+🔥 **SAP ABAP Tech Hack: Lightweight "Universal" Data Sync Middleware** 🚀
+
+This isn't just a piece of report code; it's an incredibly practical, universal data integration tool! Its core value lies in safely and dynamically pushing ANY SAP report data to external databases—without modifying a single line of original logic.
+
+✨ **Core Features Unveiled:**
+
+1️⃣ **Non-intrusive ALV Data Interception:** Cleverly leverages low-level mechanics to directly "intercept" ALV results from existing standard or custom reports in the background. Stop reinventing the wheel and directly reuse existing logic!
+2️⃣ **Fully Dynamic Data Reconstruction (RTTS):** Say goodbye to rigid hardcoding! It automatically trims fields based on configuration tables, dynamically concatenates UUIDs and timestamps, and flexibly adapts to various target table structures.
+3️⃣ **Efficient Direct DB Connection via ADBC:** Bypasses cumbersome intermediate interfaces, connecting directly to external databases for high-concurrency CRUD operations. Comes with built-in "disaster prevention for accidental deletions" and "automatic exception rollback" to give you ultimate peace of mind 🛡️.
+4️⃣ **Dual-Mode Operation:** The foreground offers a visual pop-up for users to select configurations, while the background perfectly supports scheduled batch jobs. Balances business needs and operations effortlessly.
+
+💡 **TL;DR:** With just a simple configuration, you can seamlessly transform ANY report in SAP into a "data source" for external systems!
 Please download the zip file to run.
 
 Configuration screenshot
