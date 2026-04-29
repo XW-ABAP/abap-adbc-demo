@@ -19,6 +19,10 @@ Please download the zip file to run.
 Configuration screenshot
 
 
+<img width="1297" height="285" alt="image" src="https://github.com/user-attachments/assets/0e6edb27-c18c-448a-a5dc-bb576b1e5f5d" />
+
+If you need to display the pushed fields in ALV format and then save them as an Excel file to facilitate the creation of base tables in the database by AI
+
 <img width="1036" height="325" alt="image" src="https://github.com/user-attachments/assets/7db5eb86-d2d9-45f3-bab3-cd551a16732b" />
 
 <img width="717" height="372" alt="image" src="https://github.com/user-attachments/assets/298e381b-bf9d-4460-9c6e-dbe4a53f443b" />
