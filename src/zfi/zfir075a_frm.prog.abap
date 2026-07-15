@@ -23,7 +23,9 @@ FORM frm_getdata_push.
   IF p_back = 'X'.
     SELECT * FROM zfir057at1
        INTO CORRESPONDING FIELDS OF TABLE gt_zfir057at1
-       WHERE zblock_push = ''.
+       WHERE zblock_push = ''
+         AND progname IN s_repid
+         AND variant IN s_vari.
   ELSE.
 
   ENDIF.
@@ -468,7 +470,7 @@ FORM frm_crud_targetdata TABLES lt_components   TYPE cl_abap_structdescr=>compon
 *    这个时候我得到了 lt_where_clauses
     IF lt_where_clauses IS NOT INITIAL.
       " 将内表中的所有行用 ' AND ' 连接起来
-      lv_where = concat_lines_of( table = lt_where_clauses sep = ' AND ' ).
+      lv_where = concat_lines_of( table = lt_where_clauses sep = ` AND ` ).
     ENDIF.
 
 *    DATA:lr_result TYPE REF TO data.
@@ -508,35 +510,45 @@ FORM frm_crud_targetdata TABLES lt_components   TYPE cl_abap_structdescr=>compon
           go_sqlerr_ref TYPE REF TO cx_sql_exception.
 
     TRY.
-        " 连接外部数据库 (确保 'ps_zfir057at1-dbname' 是你 DBCO 里配好的连接)
+        " 1. 获取连接
         go_db = cl_sql_connection=>get_connection( ps_zfir057at1-dbname ).
 
-        " 拼装原生 SELECT * SQL 语句
-        DATA(lv_stmt) = |SELECT * FROM { lv_target_tbname }|.
+        " =====================================================================
+        " 2. 核心修改：从之前的组件表 lt_components 动态拼装 SELECT 字段列表
+        " 假设 lt_components 里存了 MATNR, WERKS, MENGE
+        " 我们要把它拼成一个字符串: 'MATNR, WERKS, MENGE'
+        " =====================================================================
+        DATA: lv_fields TYPE string.
+        LOOP AT lt_components INTO DATA(ls_comp).
+          IF sy-tabix = 1.
+            lv_fields = ls_comp-name.
+          ELSE.
+            lv_fields = lv_fields && ', ' && ls_comp-name.
+          ENDIF.
+        ENDLOOP.
+
+        " 3. 拼装原生 SQL (不要写 CORRESPONDING FIELDS，把 * 替换成刚刚拼好的字段)
+        " 结果类似: SELECT MATNR, WERKS, MENGE FROM ZMMR203CWLXB
+        DATA(lv_stmt) = |SELECT { lv_fields } FROM { lv_target_tbname }|.
+
         IF lv_where IS NOT INITIAL.
           lv_stmt = |{ lv_stmt } WHERE { lv_where }|.
         ENDIF.
 
-        " 创建 Statement 并执行
+        " 4. 执行 SQL
         DATA(lo_stmt_ref) = go_db->create_statement( tab_name_for_trace = lv_target_tbname ).
         DATA(lo_res_ref)  = lo_stmt_ref->execute_query( lv_stmt ).
 
-        " 核心：把刚刚动态生成的 lr_db_data 直接喂给 ADBC 的输出表
-        " (因为 lr_db_data 本身就是 REF TO data，不需要再去 GET REFERENCE OF 了)
+        " 5. 绑定动态输出表并抓取数据
         lo_res_ref->set_param_table( lr_db_data ).
-
-        " 抓取数据到内存中，此时 <lt_db> 里面就有数据了！
         DATA(lv_row_cnt) = lo_res_ref->next_package( ).
 
-        " 关闭游标释放资源
         lo_res_ref->close( ).
-
         WRITE: / '成功从外部数据库查出', lv_row_cnt, '条数据'.
 
       CATCH cx_sql_exception INTO go_sqlerr_ref.
         MESSAGE go_sqlerr_ref->sql_message TYPE 'E'.
     ENDTRY.
-
 
     IF <lt_db> IS NOT INITIAL.
 
